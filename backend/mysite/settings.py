@@ -195,5 +195,5 @@ STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 from google.oauth2 import service_account
 
 GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
-    "./celebrating-jesse-a0f9f3021e6a-storage-service-account.json"
+    "./celebrating-jesse-4a93e9d763a8-storage-service-account.json"
 )
