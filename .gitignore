@@ -1,0 +1,45 @@
+*.pyc
+
+.DS_Store
+.thumbs.db
+node_modules
+package-lock.json
+
+# Quasar core related directories
+.quasar
+frontend/dist
+
+# Cordova related directories and files
+frontend/src-cordova/node_modules
+frontend/src-cordova/platforms
+frontend/src-cordova/plugins
+frontend/src-cordova/www
+
+# Capacitor related directories and files
+frontend/src-capacitor/www
+frontend/src-capacitor/node_modules
+
+# BEX related directories and files
+frontend/src-bex/www
+frontend/src-bex/js/core
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor directories and files
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+frontend/.vscode
+
+
+# Cypress
+frontend/cypress/screenshots
+frontend/cypress/videos
+
+backend/cloud_sql_proxy
+backend/celebrating-jesse-a0f9f3021e6a-storage-service-account.json
