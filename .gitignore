@@ -42,4 +42,6 @@ frontend/cypress/screenshots
 frontend/cypress/videos
 
 backend/cloud_sql_proxy
+
+# Google Cloud Platform service account secret key
 backend/celebrating-jesse-a0f9f3021e6a-storage-service-account.json
