@@ -3,19 +3,14 @@
 ## Run app locally
 In a separate terminal instance, start the Cloud SQL Proxy to connect to the remote MySQL DB
 ```bash
-./cloud_sql_proxy -instances="celebrating-jesse:us-west1:celebrating-jesse"=tcp:3306
+cd backend && ./cloud_sql_proxy -instances="celebrating-jesse:us-west1:celebrating-jesse"=tcp:3306
 ```
 Activate Python Environment
 ```bash
-source ../env/bin/activate
-```
-Run local server
-```bash
-python manage.py runserver
+source ../env/bin/activate && cd backend && python manage.py runserver
 ```
 
 ## Deploy app
-Deploy app
 ```bash
 gcloud app deploy
 ```
@@ -47,13 +42,9 @@ yarn run lint
 
 
 
-### Customize the configuration
-See [Configuring quasar.conf.js](https://quasar.dev/quasar-cli/quasar-conf-js).
-
 # Run the frontend locally
 ```bash
-cd frontend
-quasar dev
+cd frontend && quasar dev
 ```
 
 # Deploy frontend
