@@ -86,15 +86,18 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-# Install PyMySQL as mysqlclient/MySQLdb to use Django's mysqlclient adapter
-# See https://docs.djangoproject.com/en/2.1/ref/databases/#mysql-db-api-drivers
-# for more information
-import pymysql  # noqa: 402
-pymysql.version_info = (1, 4, 6, 'final', 0)  # change mysqlclient version
-pymysql.install_as_MySQLdb()
+
 
 # [START db_setup]
 if os.getenv('GAE_APPLICATION', None):
+
+    # Install PyMySQL as mysqlclient/MySQLdb to use Django's mysqlclient adapter
+    # See https://docs.djangoproject.com/en/2.1/ref/databases/#mysql-db-api-drivers
+    # for more information
+    import pymysql  # noqa: 402
+    pymysql.version_info = (1, 4, 6, 'final', 0)  # change mysqlclient version
+    pymysql.install_as_MySQLdb()
+
     # Running on production App Engine, so connect to Google Cloud SQL using
     # the unix socket at /cloudsql/<your-cloudsql-connection string>
     DATABASES = {
@@ -113,14 +116,20 @@ else:
     #     $ cloud_sql_proxy -instances=[INSTANCE_CONNECTION_NAME]=tcp:3306
     #
     # See https://cloud.google.com/sql/docs/mysql-connect-proxy
+    # DATABASES = {
+    #     'default': {
+    #         'ENGINE': 'django.db.backends.mysql',
+    #         'HOST': '127.0.0.1',
+    #         'PORT': '3306',
+    #         'NAME': 'jessememories',
+    #         'USER': 'jesse-memories-user',
+    #         'PASSWORD': ')J:w")]f69=%f2BnS/}I',
+    #     }
+    # }
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'HOST': '127.0.0.1',
-            'PORT': '3306',
-            'NAME': 'jessememories',
-            'USER': 'jesse-memories-user',
-            'PASSWORD': ')J:w")]f69=%f2BnS/}I',
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3')
         }
     }
 # [END db_setup]
@@ -170,8 +179,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
-STATIC_ROOT = 'static'
+# STATIC_ROOT = 'static'
 STATIC_URL = '/static/'
+
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, "static")
+# ]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
@@ -187,13 +203,14 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 10,
 }
 
-# Google Cloud Storage
-DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
-GS_BUCKET_NAME = 'celebrating-jesse.appspot.com'
-STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+if os.getenv('GAE_APPLICATION', None):
+    # Google Cloud Storage
+    DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+    GS_BUCKET_NAME = 'celebrating-jesse.appspot.com'
+    STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 
-from google.oauth2 import service_account
+    from google.oauth2 import service_account
 
-GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
-    "./celebrating-jesse-4a93e9d763a8-storage-service-account.json"
-)
+    GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
+        "./celebrating-jesse-4a93e9d763a8-storage-service-account.json"
+    )

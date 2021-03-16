@@ -49,7 +49,7 @@ class Image(Memory):
         verbose_name = _("Image")
         verbose_name_plural = _("Images")
 
-    image = models.ImageField(upload_to="uploads/images")
+    image = models.ImageField(upload_to="images")
 
 
 class Video(Memory):
@@ -57,7 +57,7 @@ class Video(Memory):
         verbose_name = _("Video")
         verbose_name_plural = _("Videos")
 
-    video = models.FileField(upload_to="uploads/videos")
+    video = models.FileField(upload_to="videos")
 
 
 class Audio(Memory):
@@ -65,4 +65,4 @@ class Audio(Memory):
         verbose_name = _("Audio")
         verbose_name_plural = _("Audios")
 
-    audio = models.FileField(upload_to="uploads/audio")
+    audio = models.FileField(upload_to="audio")
