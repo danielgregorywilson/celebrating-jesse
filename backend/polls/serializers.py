@@ -51,6 +51,9 @@ class StorySerializer(serializers.HyperlinkedModelSerializer):
         if 'date' in validated_data:
             story.date = validated_data['date']
             story.save()
+        if Story.objects.filter(uploaded_by__pk=self.context['request'].user.pk, approved=True).count():
+            story.approved = True
+            story.save()
         return story
 
 
@@ -72,6 +75,9 @@ class ImageSerializer(serializers.HyperlinkedModelSerializer):
         if 'date' in validated_data:
             image.date = validated_data['date']
             image.save()
+        if Image.objects.filter(uploaded_by__pk=self.context['request'].user.pk, approved=True).count():
+            image.approved = True
+            image.save()
         return image
 
 
@@ -92,6 +98,9 @@ class VideoSerializer(serializers.HyperlinkedModelSerializer):
         if 'date' in validated_data:
             video.date = validated_data['date']
             video.save()
+        if Video.objects.filter(uploaded_by__pk=self.context['request'].user.pk, approved=True).count():
+            video.approved = True
+            video.save()
         return video
 
 
@@ -111,5 +120,8 @@ class AudioSerializer(serializers.HyperlinkedModelSerializer):
         )
         if 'date' in validated_data:
             audio.date = validated_data['date']
+            audio.save()
+        if Audio.objects.filter(uploaded_by__pk=self.context['request'].user.pk, approved=True).count():
+            audio.approved = True
             audio.save()
         return audio
