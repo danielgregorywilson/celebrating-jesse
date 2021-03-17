@@ -34,11 +34,18 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
         fields = ['pk', 'url']
 
 
-class StorySerializer(serializers.HyperlinkedModelSerializer):
+class MemorySerializer(serializers.HyperlinkedModelSerializer):
+    uploaded_by_name = serializers.SerializerMethodField()
 
+    @staticmethod
+    def get_uploaded_by_name(memory):
+        return memory.uploaded_by.get_full_name()
+
+class StorySerializer(MemorySerializer):
+    
     class Meta:
         model = Story
-        fields = ['pk', 'story', 'title', 'description', 'date', 'age']
+        fields = ['pk', 'story', 'title', 'description', 'date', 'age', 'uploaded_by_name']
 
     def create(self, validated_data):
         story = Story.objects.create(
@@ -57,12 +64,12 @@ class StorySerializer(serializers.HyperlinkedModelSerializer):
         return story
 
 
-class ImageSerializer(serializers.HyperlinkedModelSerializer):
+class ImageSerializer(MemorySerializer):
     date = serializers.DateField(required=False)
 
     class Meta:
         model = Image
-        fields = ['pk', 'image', 'title', 'description', 'date', 'age']
+        fields = ['pk', 'image', 'title', 'description', 'date', 'age', 'uploaded_by_name']
     
     def create(self, validated_data):
         image = Image.objects.create(
@@ -81,11 +88,11 @@ class ImageSerializer(serializers.HyperlinkedModelSerializer):
         return image
 
 
-class VideoSerializer(serializers.HyperlinkedModelSerializer):
+class VideoSerializer(MemorySerializer):
 
     class Meta:
         model = Video
-        fields = ['pk', 'video', 'title', 'description', 'date', 'age']
+        fields = ['pk', 'video', 'title', 'description', 'date', 'age', 'uploaded_by_name']
     
     def create(self, validated_data):
         video = Video.objects.create(
@@ -104,11 +111,11 @@ class VideoSerializer(serializers.HyperlinkedModelSerializer):
         return video
 
 
-class AudioSerializer(serializers.HyperlinkedModelSerializer):
+class AudioSerializer(MemorySerializer):
 
     class Meta:
         model = Audio
-        fields = ['pk', 'audio', 'title', 'description', 'date', 'age']
+        fields = ['pk', 'audio', 'title', 'description', 'date', 'age', 'uploaded_by_name']
 
     def create(self, validated_data):
         audio = Audio.objects.create(

@@ -1,11 +1,23 @@
 <template>
   <q-page class="q-pa-md">
     <div class="row q-gutter-md justify-between">
-      <div v-for="memory in memories" :key="memory.key" class="memory-container" @click="openCarousel(memory.key)">
+      <div v-for="memory in memories" :key="memory.key" class="memory-container row items-center justify-center bg-primary" @click="openCarousel(memory.key)">
         <img v-if="memory.type == 'image'" class="memory-image" :src="memory.image" />
-        <div v-if="memory.type == 'story'">{{ memory.story }}</div>
-        <div v-if="memory.type == 'video'"><q-avatar icon="ondemand_video" color="primary" text-color="white" /><q-icon name="ondemand_video" color="primary" size="56px" />{{ memory.video }}</div>
-        <div v-if="memory.type == 'audio'"><q-avatar icon="headset" color="primary" text-color="white" /><q-icon name="headset" color="primary" size="56px" />{{ memory.audio }}</div>
+        <div v-if="memory.type == 'story'">
+          <q-icon name="auto_stories" color="white" size="56px"/>
+          <span v-if="memory.title" class="text-white row">{{ memory.title }}</span>
+          <span class="text-white">Uploaded by {{ memory.uploaded_by_name }}</span>
+        </div>
+        <div v-if="memory.type == 'video'">
+          <q-icon name="ondemand_video" color="white" size="56px"/>
+          <span v-if="memory.title" class="text-white row">{{ memory.title }}</span>
+          <span class="text-white">Uploaded by {{ memory.uploaded_by_name }}</span>
+        </div>
+        <div v-if="memory.type == 'audio'">
+          <q-icon name="headset" color="white" size="56px"/>
+          <span v-if="memory.title" class="text-white row">{{ memory.title }}</span>
+          <span class="text-white">Uploaded by {{ memory.uploaded_by_name }}</span>
+        </div>
       </div>
     </div>
 
@@ -33,11 +45,11 @@
   </q-page>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
   .memory-container {
     width: 250px;
     height: 250px;
-    border: 1px solid black;
+    border: 1px solid $primary;
   }
   .memory-image {
     max-width: 100%;
