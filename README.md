@@ -12,6 +12,7 @@ source ../env/bin/activate && cd backend && python manage.py runserver
 
 ## Deploy app
 ```bash
+cd backend
 gcloud app deploy
 ```
 Open app in browser

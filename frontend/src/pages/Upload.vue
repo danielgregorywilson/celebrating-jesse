@@ -1,6 +1,6 @@
 <template>
   <q-page class="q-pa-md">
-    <p>Upload a memory of Jesse! Choose an image, video, audio recording, or story that you want to sahre.</p>
+    <p>Upload a memory of Jesse! Choose an image, video, audio recording, or story that you want to share.</p>
     <div class="q-gutter-sm">
       <q-radio v-model="type" val="image" label="Image" />
       <q-radio v-model="type" val="video" label="Video" />
@@ -43,7 +43,7 @@
           <q-avatar icon="check" color="primary" text-color="white" />
           <div class="col">
             <span class="q-ml-sm row">Your memory was successfully uploaded!</span>
-            <span class="q-ml-sm row">If this is your first upload, it won't appear in the gallery immediately.</span>
+            <span class="q-ml-sm row">If this is your first time uploading, it won't appear in the gallery until it has been approved.</span>
           </div>
         </q-card-section>
 

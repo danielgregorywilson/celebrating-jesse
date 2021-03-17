@@ -1,8 +1,8 @@
 <template>
-  <q-page class="q-pa-md">
-    <div class="row q-gutter-md justify-between">
-      <div v-for="memory in memories" :key="memory.key" class="memory-container row items-center justify-center bg-primary" @click="openCarousel(memory.key)">
-        <img v-if="memory.type == 'image'" class="memory-image" :src="memory.image" />
+  <q-page class="q-pa-md" id="page">
+    <div class="row q-gutter-md justify-center">
+      <div v-for="memory in memories" :key="memory.key" class="memory-container row items-center justify-center" @click="openCarousel(memory.key)">
+        <img v-if="memory.type == 'image'" class="memory-grid-image" :src="memory.image" />
         <div v-if="memory.type == 'story'">
           <q-icon name="auto_stories" color="white" size="56px"/>
           <span v-if="memory.title" class="text-white row">{{ memory.title }}</span>
@@ -59,7 +59,7 @@
           </q-carousel-control>
         </template>
         <q-carousel-slide v-for="memory in memories" :key="memory.key" :name="memory.key" class="column no-wrap flex-center">
-          <img v-if="memory.type == 'image'" :src="memory.image" class="memory-image" />
+          <img v-if="memory.type == 'image'" :src="memory.image" class="memory-lightbox-image" />
           <div v-if="memory.type == 'story'" class="column flex-center">
             <q-card class="lightbox-story">
               <q-card-section>
@@ -87,12 +87,23 @@
 </template>
 
 <style scoped lang="scss">
+  #page {
+    background: $darkest;
+  }
+  
   .memory-container {
     width: 250px;
     height: 250px;
-    border: 1px solid $primary;
+    background-color: $darker;
+    border-radius: 5px;
   }
-  .memory-image {
+  .memory-grid-image {
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+  .memory-lightbox-image {
     max-width: 100%;
     max-height: 100%;
   }

@@ -22,8 +22,8 @@
       v-model="leftDrawerOpen"
       show-if-above
       bordered
-      content-class="bg-grey-1"
       :width="210"
+      id="sidebar"
     >
       <q-list>
         <q-item
@@ -113,6 +113,12 @@
     </q-page-container>
   </q-layout>
 </template>
+
+<style scoped lang="scss">
+#sidebar {
+    background: $darkest;
+  }
+</style>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
