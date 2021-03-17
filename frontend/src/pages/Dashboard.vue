@@ -33,12 +33,27 @@
         class="bg-white shadow-1 rounded-borders"
       >
         <q-carousel-slide v-for="memory in memories" :key="memory.key" :name="memory.key" class="column no-wrap flex-center">
-          <img v-if="memory.type == 'image'" :src="memory.image" />
-          <div v-if="memory.type == 'story'">{{ memory.story }}</div>
+          <img v-if="memory.type == 'image'" :src="memory.image" class="memory-image" />
+          <div v-if="memory.type == 'story'" class="column flex-center">
+            <q-card class="lightbox-story">
+              <q-card-section>
+                {{ memory.story }}
+              </q-card-section>
+            </q-card>
+          </div>
           <video v-if="memory.type == 'video'" width="320" height="240" controls>
             <source :src="memory.video" type="video/mp4">
           </video>
           <audio v-if="memory.type == 'audio'" controls :src="memory.audio" />
+          <q-card class="lightbox-metadata">
+            <q-card-section>
+              <span v-if="memory.title" class="row">{{ memory.title }}</span>
+              <span v-if="memory.description" class="row">{{ memory.description }}</span>
+              <span v-if="memory.date" class="row">Date: {{ memory.date }}</span>
+              <span v-if="memory.age && memory.age != -1" class="row">Age: {{ memory.age }}</span>
+              <span class="row">Uploaded by {{ memory.uploaded_by_name }}</span>
+            </q-card-section>
+          </q-card>
         </q-carousel-slide>
       </q-carousel>
     </q-dialog>
@@ -54,6 +69,16 @@
   .memory-image {
     max-width: 100%;
     max-height: 100%;
+  }
+  .lightbox-story {
+    width: 80%;
+  }
+  .lightbox-metadata {
+    position: fixed;
+    left: 30px;
+    bottom: 30px;
+    opacity: 0.8;
+
   }
 </style>
 
