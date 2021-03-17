@@ -10,6 +10,7 @@ class Memory(models.Model):
         abstract = True
 
     uploaded_by = models.ForeignKey("auth.User", verbose_name=_("uploaded by"), on_delete=models.CASCADE)
+    uploaded_at = models.DateTimeField("datetime uploaded", auto_now_add=True)
     title = models.TextField(blank=True)
     description = models.TextField(blank=True)
     date = models.DateField(blank=True, null=True)

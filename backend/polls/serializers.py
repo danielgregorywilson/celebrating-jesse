@@ -45,7 +45,7 @@ class StorySerializer(MemorySerializer):
     
     class Meta:
         model = Story
-        fields = ['pk', 'story', 'title', 'description', 'date', 'age', 'uploaded_by_name']
+        fields = ['pk', 'story', 'title', 'description', 'date', 'age', 'uploaded_by_name', 'uploaded_at']
 
     def create(self, validated_data):
         story = Story.objects.create(
@@ -69,7 +69,7 @@ class ImageSerializer(MemorySerializer):
 
     class Meta:
         model = Image
-        fields = ['pk', 'image', 'title', 'description', 'date', 'age', 'uploaded_by_name']
+        fields = ['pk', 'image', 'title', 'description', 'date', 'age', 'uploaded_by_name', 'uploaded_at']
     
     def create(self, validated_data):
         image = Image.objects.create(
@@ -92,7 +92,7 @@ class VideoSerializer(MemorySerializer):
 
     class Meta:
         model = Video
-        fields = ['pk', 'video', 'title', 'description', 'date', 'age', 'uploaded_by_name']
+        fields = ['pk', 'video', 'title', 'description', 'date', 'age', 'uploaded_by_name', 'uploaded_at']
     
     def create(self, validated_data):
         video = Video.objects.create(
@@ -115,7 +115,7 @@ class AudioSerializer(MemorySerializer):
 
     class Meta:
         model = Audio
-        fields = ['pk', 'audio', 'title', 'description', 'date', 'age', 'uploaded_by_name']
+        fields = ['pk', 'audio', 'title', 'description', 'date', 'age', 'uploaded_by_name', 'uploaded_at']
 
     def create(self, validated_data):
         audio = Audio.objects.create(

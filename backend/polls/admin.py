@@ -10,7 +10,7 @@ def approve(modeladmin, request, queryset):
 approve.short_description = "Approve memories"
 
 class MemoryAdmin(admin.ModelAdmin):
-    list_display = ("pk", "title", "uploaded_by", "approved")
+    list_display = ("pk", "title", "uploaded_by", "uploaded_at", "approved")
     actions = [approve]    
 
 @admin.register(Story)

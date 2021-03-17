@@ -77,7 +77,7 @@
               <span v-if="memory.description" class="row">{{ memory.description }}</span>
               <span v-if="memory.date" class="row">Date: {{ memory.date }}</span>
               <span v-if="memory.age && memory.age != -1" class="row">Age: {{ memory.age }}</span>
-              <span class="row">Uploaded by {{ memory.uploaded_by_name }}</span>
+              <span class="row">Uploaded by {{ memory.uploaded_by_name }} on {{ readableDate(memory.uploaded_at) }}</span>
             </q-card-section>
           </q-card>
         </q-carousel-slide>
@@ -120,6 +120,7 @@
 </style>
 
 <script lang="ts">
+import { date } from 'quasar'
 import { Component, Vue } from 'vue-property-decorator'
 import ReviewNoteTable from '../components/ReviewNoteTable.vue';
 import PerformanceReviewTable from '../components/PerformanceReviewTable.vue';
@@ -135,6 +136,10 @@ export default class Dashboard extends Vue {
   private carousel = false
   private slide = ''
   private carouselAutoplay = false
+
+  private readableDate(unformattedDate: Date): string {
+    return date.formatDate(unformattedDate, 'M/D/YYYY')
+  }
 
   private images(): Array<ImageRetrieve> {
     let images: Array<ImageRetrieve> = this.$store.getters['memoriesModule/images'].results // eslint-disable-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-assignment
