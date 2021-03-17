@@ -29,9 +29,35 @@
         transition-next="slide-left"
         swipeable
         control-color="primary"
-        arrows
         class="bg-white shadow-1 rounded-borders"
+        :autoplay="carouselAutoplay"
+        ref="carousel"
       >
+        <template v-slot:control>
+          <q-carousel-control
+            position="top-right"
+            :offset="[18, 18]"
+            class="text-white rounded-borders"
+            style="background: rgba(0, 0, 0, .3); padding: 4px 8px;"
+          >
+            <q-toggle dense dark color="primary" v-model="carouselAutoplay" label="Autoplay" />
+          </q-carousel-control>
+
+          <q-carousel-control
+            position="bottom-right"
+            :offset="[18, 18]"
+            class="q-gutter-xs"
+          >
+            <q-btn
+              push round dense color="primary" text-color="black" icon="arrow_left"
+              @click="$refs.carousel.previous()"
+            />
+            <q-btn
+              push round dense color="primary" text-color="black" icon="arrow_right"
+              @click="$refs.carousel.next()"
+            />
+          </q-carousel-control>
+        </template>
         <q-carousel-slide v-for="memory in memories" :key="memory.key" :name="memory.key" class="column no-wrap flex-center">
           <img v-if="memory.type == 'image'" :src="memory.image" class="memory-image" />
           <div v-if="memory.type == 'story'" class="column flex-center">
@@ -97,6 +123,7 @@ export default class Dashboard extends Vue {
   private memories: Array<AudioRetrieve|ImageRetrieve|StoryRetrieve|VideoRetrieve> = []
   private carousel = false
   private slide = ''
+  private carouselAutoplay = false
 
   private images(): Array<ImageRetrieve> {
     let images: Array<ImageRetrieve> = this.$store.getters['memoriesModule/images'].results // eslint-disable-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-assignment

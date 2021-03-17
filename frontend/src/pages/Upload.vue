@@ -83,7 +83,7 @@ export default class Dashboard extends Vue {
 
   private getAgeLabel(): string {
     if (this.age == -1) {
-      return "0"
+      return '0'
     } else {
       return this.age.toString()
     }
