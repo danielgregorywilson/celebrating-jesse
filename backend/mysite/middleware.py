@@ -10,7 +10,9 @@ class CorsMiddleware(object):
         
         if os.getenv('GAE_APPLICATION', None):
             # Production allowed request origins
-            response["Access-Control-Allow-Origin"] = "http://celebrating-jesse-frontend.s3-website-us-west-2.amazonaws.com"
+            # response["Access-Control-Allow-Origin"] = "http://celebrating-jesse-frontend.s3-website-us-west-2.amazonaws.com"
+            # response["Access-Control-Allow-Origin"] = "http://celebratingjesse.net.s3-website-us-west-2.amazonaws.com"
+            response["Access-Control-Allow-Origin"] = "celebratingjesse.net"
         else:
             # Local development allowed request origins
             # response["Access-Control-Allow-Origin"] = "http://localhost:8080"
