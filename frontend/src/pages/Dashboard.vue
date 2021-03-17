@@ -1,5 +1,11 @@
 <template>
   <q-page class="q-pa-md" id="page">
+    <q-spinner-cube
+      color="white"
+      size="5.5em"
+      class="cube-spinner"
+      v-if="showSpinner"
+    />
     <div class="row q-gutter-md justify-center">
       <div v-for="memory in memories" :key="memory.key" class="memory-container row items-center justify-center" @click="openCarousel(memory.key)">
         <img v-if="memory.type == 'image'" class="memory-grid-image" :src="memory.image" />
@@ -90,7 +96,13 @@
   #page {
     background: $darkest;
   }
-  
+  .cube-spinner {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -38.5px;
+    margin-left: -38.5px;
+  }
   .memory-container {
     width: 250px;
     height: 250px;
@@ -136,6 +148,7 @@ export default class Dashboard extends Vue {
   private carousel = false
   private slide = ''
   private carouselAutoplay = false
+  private showSpinner = true
 
   private readableDate(unformattedDate: Date): string {
     return date.formatDate(unformattedDate, 'M/D/YYYY')
@@ -193,6 +206,7 @@ export default class Dashboard extends Vue {
         .map((a) => ({sort: Math.random(), value: a}))
         .sort((a, b) => a.sort - b.sort)
         .map((a) => a.value)
+      this.showSpinner = false
     })
     .catch(e => {
       console.error('Error getting all memories:', e)
