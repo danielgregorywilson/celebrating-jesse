@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+    <q-header elevated class="bg-dark text-primary">
       <q-toolbar>
         <q-btn
           flat
@@ -23,89 +23,90 @@
       show-if-above
       bordered
       :width="210"
-      id="sidebar"
     >
-      <q-list>
-        <q-item
-          clickable
-          @click='gallery'
-        >
-          <q-item-section avatar>
-            <q-icon name='collections' />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Gallery</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item
-          clickable
-          @click='register'
-          v-if="!profileLoaded()"
-        >
-          <q-item-section avatar>
-            <q-icon name='how_to_reg' />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Register</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item
-          clickable
-          @click='login'
-          v-if="!profileLoaded()"
-        >
-          <q-item-section avatar>
-            <q-icon name='login' />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Log In</q-item-label>
-          </q-item-section>
-        </q-item>
-        
-        <q-item v-if="profileLoaded()">
-          <q-item-section avatar>
-            <q-icon name='person' />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>{{profile().name}} </q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item
-          clickable
-          @click='logout'
-          v-if="profileLoaded()"
-        >
-          <q-item-section avatar>
-            <q-icon name='west' />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Log Out</q-item-label>
-          </q-item-section>
-        </q-item>
-        <hr />
-        <q-item
-          @click='filter'
-        >
-          <q-item-section avatar>
-            <q-icon name='filter_list' />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Filter</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item
-          clickable
-          @click='upload'
-          v-if="profileLoaded()"
-        >
-          <q-item-section avatar>
-            <q-icon name='file_upload' />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Upload</q-item-label>
-          </q-item-section>
-        </q-item>
-      </q-list>
+      <div class="text-primary">
+        <q-list>
+          <q-item
+            clickable
+            @click='gallery'
+          >
+            <q-item-section avatar>
+              <q-icon name='collections' />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Gallery</q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item
+            clickable
+            @click='register'
+            v-if="!profileLoaded()"
+          >
+            <q-item-section avatar>
+              <q-icon name='how_to_reg' />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Register</q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item
+            clickable
+            @click='login'
+            v-if="!profileLoaded()"
+          >
+            <q-item-section avatar>
+              <q-icon name='login' />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Log In</q-item-label>
+            </q-item-section>
+          </q-item>
+          
+          <q-item v-if="profileLoaded()">
+            <q-item-section avatar>
+              <q-icon name='person' />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>{{profile().name}} </q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item
+            clickable
+            @click='logout'
+            v-if="profileLoaded()"
+          >
+            <q-item-section avatar>
+              <q-icon name='west' />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Log Out</q-item-label>
+            </q-item-section>
+          </q-item>
+          <hr class="drawer-divider"/>
+          <q-item
+            @click='filter'
+          >
+            <q-item-section avatar>
+              <q-icon name='filter_list' />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Filter</q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item
+            clickable
+            @click='upload'
+            v-if="profileLoaded()"
+          >
+            <q-item-section avatar>
+              <q-icon name='file_upload' />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Upload</q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </div>
     </q-drawer>
 
     <q-page-container>
@@ -114,9 +115,12 @@
   </q-layout>
 </template>
 
-<style scoped lang="scss">
-#sidebar {
-    background: $darkest;
+<style lang="scss">
+  .q-drawer {
+    background-color: $darker;
+  }
+  .drawer-divider {
+    border: 1px solid $primary;
   }
 </style>
 
