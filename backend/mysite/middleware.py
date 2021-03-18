@@ -16,7 +16,7 @@ class CorsMiddleware(object):
         else:
             # Local development allowed request origins
             # response["Access-Control-Allow-Origin"] = "http://localhost:8080"
-            response["Access-Control-Allow-Origin"] = "http://jesse-memorial:8080"
+            response["Access-Control-Allow-Origin"] = "http://celebratingjesse:8080"
         
         response["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
         response["Access-Control-Allow-Methods"] = "GET, POST, PATCH, PUT, DELETE, OPTIONS"

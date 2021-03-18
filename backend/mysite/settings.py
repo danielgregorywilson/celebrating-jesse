@@ -32,7 +32,7 @@ DEBUG = True
 # See https://docs.djangoproject.com/en/2.1/ref/settings/
 ALLOWED_HOSTS = [
     'localhost',
-    'jesse-memorial',
+    'celebratingjesse',
     'celebrating-jesse.wl.r.appspot.com',
     'http://celebrating-jesse-frontend.s3-website-us-west-2.amazonaws.com',
 ]

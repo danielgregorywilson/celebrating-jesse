@@ -51,7 +51,7 @@ module.exports = configure(function (ctx) {
     build: {
       vueRouterMode: 'history', // available values: 'hash', 'history'
       env: {
-        API_URL: ctx.dev ? 'http://jesse-memorial:8000/' : 'https://celebrating-jesse.wl.r.appspot.com/'
+        API_URL: ctx.dev ? 'http://celebratingjesse:8000/' : 'https://celebrating-jesse.wl.r.appspot.com/'
         // API_URL: 'https://celebrating-jesse.wl.r.appspot.com/'
       },
 
@@ -199,7 +199,7 @@ module.exports = configure(function (ctx) {
       builder: {
         // https://www.electron.build/configuration/configuration
 
-        appId: 'jesse-memorial'
+        appId: 'celebrating-jesse'
       },
 
       // More info: https://quasar.dev/quasar-cli/developing-electron-apps/node-integration
