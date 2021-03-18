@@ -27,7 +27,7 @@
         <input v-model="last_name" id="last_name" type="text"/>
       </div>
       <hr/>
-      <button type="submit">Register</button>
+      <button type="submit" :disabled="!fieldsComplete()">Register</button>
     </form>
   </div>
 </template>
@@ -44,6 +44,11 @@ export default class Login extends Vue{
   private first_name = ''
   private last_name = ''
   private show_password_error = false
+  
+  private fieldsComplete(): boolean {
+    return !!this.email && !!this.password && !!this.password_again
+  }
+  
   public register(): void {
     const { email, password, password_again, first_name, last_name } = this
     if (password != password_again) {

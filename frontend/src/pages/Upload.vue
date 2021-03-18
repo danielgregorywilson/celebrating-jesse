@@ -106,7 +106,7 @@ export default class Dashboard extends Vue {
         return !!this.file.size
         break;
       default:
-        // code block
+        return false
     }
   }
 
