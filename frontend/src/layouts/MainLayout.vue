@@ -61,13 +61,14 @@
               <q-item-label>Log In</q-item-label>
             </q-item-section>
           </q-item>
-          
+
           <q-item v-if="profileLoaded()">
             <q-item-section avatar>
               <q-icon name='person' />
             </q-item-section>
             <q-item-section>
-              <q-item-label>{{profile().name}} </q-item-label>
+              <q-item-label v-if="profile().name">{{ profile().name }} </q-item-label>
+              <q-item-label v-else>{{ profile().username }} </q-item-label>
             </q-item-section>
           </q-item>
           <q-item
@@ -184,7 +185,7 @@ export default class MainLayout extends Vue{
         console.error('Error getting audio from store:', e)
       })
   }
-  
+
   public gallery(): void {
     this.$router.push('/')
       .catch(e => {

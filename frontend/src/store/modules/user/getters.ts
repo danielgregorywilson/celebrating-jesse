@@ -4,7 +4,7 @@ import { UserStateInterface } from './state';
 
 const getters: GetterTree<UserStateInterface, StateInterface> = {
   getEmployeeProfile: state => state.profile,
-  isProfileLoaded: state => !!state.profile.name
+  isProfileLoaded: state => !!state.profile.username
 };
 
 export default getters;
