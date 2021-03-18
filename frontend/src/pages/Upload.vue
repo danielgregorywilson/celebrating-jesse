@@ -17,7 +17,7 @@
     />
     <q-input v-model="title" label="Title (optional)" />
     <q-input v-model="description" label="Description (optional)" />
-    <p class="q-mt-xl">Date this took place. Alternatively, you can select Jesse's approximate age when this took place. (optional)</p>
+    <p class="q-mt-lg">Date this took place. Alternatively, you can select Jesse's approximate age when this took place. (optional)</p>
     <div class="row">
       <q-date
         v-model="date"
@@ -34,7 +34,9 @@
           :label-value="getAgeLabel()"
         />
     </div>
-    <q-btn label="Upload" class="q-mt-lg" @click="upload()" :disable="!fieldsComplete()" />
+    <q-btn label="Upload" class="q-mt-lg" @click="upload()" :disable="!fieldsComplete() || uploading">
+      <q-spinner-cube v-if="uploading" class="q-ml-sm" />
+    </q-btn>
 
     <!-- Dialog to confirm memory uploaded -->
     <q-dialog v-model="showMemoryUploadedDialog" persistent>
@@ -79,6 +81,7 @@ export default class Dashboard extends Vue {
   private file = new File([''], '')
   private story = ''
 
+  private uploading = false
   private showMemoryUploadedDialog = false
 
   private getAgeLabel(): string {
@@ -90,10 +93,25 @@ export default class Dashboard extends Vue {
   }
 
   private fieldsComplete(): boolean {
-    return !!this.story || this.type != 'story'
+    switch(this.type) {
+      case 'image':
+        return !!this.file.size
+        break;
+      case 'story':
+        return !!this.story
+      case 'video':
+        return !!this.file.size
+        break;
+      case 'audio':
+        return !!this.file.size
+        break;
+      default:
+        // code block
+    }
   }
 
   private upload(): void {
+    this.uploading = true
     let fd = new FormData();
     fd.append('title', this.title)
     fd.append('description', this.description)
@@ -109,6 +127,7 @@ export default class Dashboard extends Vue {
         fd.append('image', this.file)
         axios({url: `${ process.env.API_URL }api/upload-image/`, data: fd, method: 'POST' }) // eslint-disable-line @typescript-eslint/restrict-template-expressions
           .then(() => {
+            this.uploading = false
             this.showMemoryUploadedDialog = true
           })
           .catch(e => {
@@ -119,6 +138,7 @@ export default class Dashboard extends Vue {
         fd.append('story', this.story)
         axios({url: `${ process.env.API_URL }api/upload-story/`, data: fd, method: 'POST' }) // eslint-disable-line @typescript-eslint/restrict-template-expressions
           .then(() => {
+            this.uploading = false
             this.showMemoryUploadedDialog = true
           })
           .catch(e => {
@@ -129,6 +149,7 @@ export default class Dashboard extends Vue {
         fd.append('video', this.file)
         axios({url: `${ process.env.API_URL }api/upload-video/`, data: fd, method: 'POST' }) // eslint-disable-line @typescript-eslint/restrict-template-expressions
           .then(() => {
+            this.uploading = false
             this.showMemoryUploadedDialog = true
           })
           .catch(e => {
@@ -139,6 +160,7 @@ export default class Dashboard extends Vue {
         fd.append('audio', this.file)
         axios({url: `${ process.env.API_URL }api/upload-audio/`, data: fd, method: 'POST' }) // eslint-disable-line @typescript-eslint/restrict-template-expressions
           .then(() => {
+            this.uploading = false
             this.showMemoryUploadedDialog = true
           })
           .catch(e => {
