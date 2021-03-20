@@ -6,7 +6,7 @@
       class="cube-spinner"
       v-if="showSpinner"
     />
-    <div class="row q-gutter-md justify-center">
+    <div class="row q-gutter-md justify-left">
       <div v-for="memory in memories" :key="memory.key" class="memory-container row items-center justify-center" @click="openCarousel(memory.key)">
         <img v-if="memory.type == 'image'" class="memory-grid-image" :src="memory.image" />
         <div v-if="memory.type == 'story'">
@@ -95,6 +95,7 @@
 <style scoped lang="scss">
   #page {
     background: $darkest;
+    background: linear-gradient(0deg, $gradientEnd 0%, $gradientStart 50%, );
   }
   .cube-spinner {
     position: fixed;
@@ -127,8 +128,12 @@
     left: 30px;
     bottom: 30px;
     opacity: 0.8;
-
   }
+  div {
+    font-family: 'Montserrat', sans-serif;
+    color: white !important;
+  }
+
 </style>
 
 <script lang="ts">

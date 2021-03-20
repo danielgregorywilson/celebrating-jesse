@@ -12,17 +12,18 @@
           @click="leftDrawerOpen = !leftDrawerOpen"
         />
 
-        <q-toolbar-title>
+        <q-toolbar-title id="mainHeader">
           Celebrating Jesse
         </q-toolbar-title>
       </q-toolbar>
     </q-header>
 
     <q-drawer
+      id="drawer"
       v-model="leftDrawerOpen"
       show-if-above
       bordered
-      :width="210"
+      :width= auto
     >
       <div class="text-primary">
         <q-list>
@@ -116,12 +117,24 @@
   </q-layout>
 </template>
 
+
+
 <style lang="scss">
   .q-drawer {
     background-color: $darker;
   }
   .drawer-divider {
     border: 1px solid $primary;
+  }
+  #mainHeader {
+    font-family: 'Satisfy', cursive;
+    color: white !important;
+    font-size: 42px;
+  }
+  #drawer {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: medium;
+    color: white !important;
   }
 </style>
 
