@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated class="bg-dark text-primary">
+    <q-header elevated class="bg-dark text-primary" id="headerBar">
       <q-toolbar>
         <q-btn
           flat
@@ -122,6 +122,7 @@
 <style lang="scss">
   .q-drawer {
     background-color: $darker;
+
   }
   .drawer-divider {
     border: 1px solid $primary;
@@ -130,6 +131,11 @@
     font-family: 'Satisfy', cursive;
     color: white !important;
     font-size: 42px;
+    background: linear-gradient(90deg, $dark 0%, $darkAlt 100%, );
+  }
+  #headerBar{
+      background: linear-gradient(90deg, $dark 0%, $darkAlt 100%, );
+
   }
   #drawer {
     font-family: 'Montserrat', sans-serif;
