@@ -35,7 +35,8 @@
         transition-next="slide-left"
         swipeable
         control-color="primary"
-        class="bg-white shadow-1 rounded-borders"
+        class="bg-gradientEnd shadow-1 rounded-borders"
+        id="memory-carousel"
         :autoplay="carouselAutoplay"
         ref="carousel"
       >
@@ -116,6 +117,10 @@
     object-fit: cover;
     border-radius: 5px;
   }
+  #memory-carousel {
+    background-color: $gradientEnd;
+    opacity: 90%;
+  }
   .memory-lightbox-image {
     max-width: 100%;
     max-height: 100%;
@@ -127,11 +132,10 @@
     position: fixed;
     left: 30px;
     bottom: 30px;
-    opacity: 0.8;
   }
   div {
     font-family: 'Montserrat', sans-serif;
-    color: white !important;
+    // color: white !important;
   }
 
 </style>

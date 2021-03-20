@@ -10,8 +10,8 @@
           aria-label="Menu"
           id="menu-button"
           @click="leftDrawerOpen = !leftDrawerOpen"
+          class="text-secondary"
         />
-
         <q-toolbar-title id="mainHeader">
           Celebrating Jesse
         </q-toolbar-title>
@@ -23,9 +23,9 @@
       v-model="leftDrawerOpen"
       show-if-above
       bordered
-      :width= auto
+      :width=210
     >
-      <div class="text-primary">
+      <div class="text-secondary">
         <q-list>
           <q-item
             clickable
@@ -125,17 +125,15 @@
 
   }
   .drawer-divider {
-    border: 1px solid $primary;
+    border: 1px solid $secondary;
   }
   #mainHeader {
     font-family: 'Satisfy', cursive;
     color: white !important;
     font-size: 42px;
-    background: linear-gradient(90deg, $dark 0%, $darkAlt 100%, );
   }
   #headerBar{
-      background: linear-gradient(90deg, $dark 0%, $darkAlt 100%, );
-
+    background: linear-gradient(90deg, $dark 0%, $darkAlt 100%, ) !important;
   }
   #drawer {
     font-family: 'Montserrat', sans-serif;

@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
     <form class="register" @submit.prevent="register">
-      <h4>Register to post memories</h4>
+      <h4 class="q-mt-lg q-mt-md" id="title">Register to post memories</h4>
       <p class="text-weight-bold">Required</p>
       <div class="row q-pa-xs">
         <label class="q-pr-sm">Email</label>
@@ -32,6 +32,14 @@
   </div>
 </template>
 
+<style lang="scss">
+  #title {
+    font-family: 'Amatic SC', sans-serif;
+    font-size: 42px;
+    font-weight: medium;
+  }
+</style>
+
 <script lang="ts">
 import axios from 'axios';
 import { Component, Vue } from 'vue-property-decorator'
@@ -44,11 +52,11 @@ export default class Login extends Vue{
   private first_name = ''
   private last_name = ''
   private show_password_error = false
-  
+
   private fieldsComplete(): boolean {
     return !!this.email && !!this.password && !!this.password_again
   }
-  
+
   public register(): void {
     const { email, password, password_again, first_name, last_name } = this
     if (password != password_again) {
