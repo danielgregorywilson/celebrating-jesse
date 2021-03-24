@@ -53,6 +53,6 @@ cd frontend && quasar dev
 cd frontend
 quasar build
 ```
-Navigate to https://s3.console.aws.amazon.com/s3/buckets/celebrating-jesse-frontend/
+Navigate to https://s3.console.aws.amazon.com/s3/buckets/celebratingjesse.net
 Under the 'Objects' tab is the list of files
 Drag the contents of frontend/dist/spa to the window to upload the build

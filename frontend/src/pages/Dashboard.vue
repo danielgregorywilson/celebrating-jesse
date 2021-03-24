@@ -1,7 +1,6 @@
 <template>
   <q-page class="q-pa-md" id="page">
     <q-spinner-cube
-      color="white"
       size="5.5em"
       class="cube-spinner"
       v-if="showSpinner"
@@ -104,6 +103,7 @@
     left: 50%;
     margin-top: -38.5px;
     margin-left: -38.5px;
+    color: $darker;
   }
   .memory-container {
     width: 250px;
