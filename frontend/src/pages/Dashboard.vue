@@ -119,7 +119,6 @@
   }
   #memory-carousel {
     background-color: $gradientEnd;
-    opacity: 90%;
   }
   .memory-lightbox-image {
     max-width: 100%;
