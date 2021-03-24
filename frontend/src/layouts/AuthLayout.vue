@@ -5,8 +5,6 @@
         <q-toolbar-title id="header">
           Celebrating Jesse
         </q-toolbar-title>
-
-        <div>Built with Quasar v{{ $q.version }}</div>
       </q-toolbar>
     </q-header>
 

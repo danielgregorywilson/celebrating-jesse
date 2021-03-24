@@ -1,8 +1,8 @@
 {
   "name": "celebrating-jesse",
   "version": "0.0.1",
-  "description": "A Quasar Framework app",
-  "productName": "Quasar App",
+  "description": "A collection of memories",
+  "productName": "Celebrating Jesse",
   "author": "Daniel Wilson <daniel.gregory.wilson@gmail.com>",
   "private": true,
   "scripts": {
