@@ -9,19 +9,19 @@
       <div v-for="memory in memories" :key="memory.key" class="memory-container row items-center justify-center" @click="openCarousel(memory.key)">
         <img v-if="memory.type == 'image'" class="memory-grid-image" :src="memory.image" />
         <div v-if="memory.type == 'story'">
-          <q-icon name="auto_stories" color="primary" size="56px"/>
-          <span v-if="memory.title" class="text-primary row">{{ memory.title }}</span>
-          <span class="text-primary">Uploaded by {{ memory.uploaded_by_name }}</span>
+          <q-icon name="auto_stories" class="memory-container-text row" size="56px"/>
+          <span v-if="memory.title" class="memory-container-text row">{{ memory.title }}</span>
+          <span class="memory-container-text row">Uploaded by {{ memory.uploaded_by_name }}</span>
         </div>
         <div v-if="memory.type == 'video'">
-          <q-icon name="ondemand_video" color="primary" size="56px"/>
-          <span v-if="memory.title" class="text-primary row">{{ memory.title }}</span>
-          <span class="text-primary">Uploaded by {{ memory.uploaded_by_name }}</span>
+          <q-icon name="ondemand_video" class="memory-container-text row" size="56px"/>
+          <span v-if="memory.title" class="memory-container-text row">{{ memory.title }}</span>
+          <span class="memory-container-text row">Uploaded by {{ memory.uploaded_by_name }}</span>
         </div>
         <div v-if="memory.type == 'audio'">
-          <q-icon name="headset" color="primary" size="56px"/>
-          <span v-if="memory.title" class="text-primary row">{{ memory.title }}</span>
-          <span class="text-primary">Uploaded by {{ memory.uploaded_by_name }}</span>
+          <q-icon name="headset" class="memory-container-text row" size="56px"/>
+          <span v-if="memory.title" class="memory-container-text row">{{ memory.title }}</span>
+          <span class="memory-container-text row">Uploaded by {{ memory.uploaded_by_name }}</span>
         </div>
       </div>
     </div>
