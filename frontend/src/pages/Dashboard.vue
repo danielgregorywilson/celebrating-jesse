@@ -111,6 +111,9 @@
     background-color: $darker;
     border-radius: 5px;
   }
+  .memory-container-text {
+    color: $gradientEnd !important;
+  }
   .memory-grid-image {
     width: 250px;
     height: 250px;
