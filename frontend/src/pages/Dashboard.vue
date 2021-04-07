@@ -5,6 +5,31 @@
       class="cube-spinner"
       v-if="showSpinner"
     />
+    <div class="row q-gutter-md justify-left q-pb-md">
+      <div v-if="showInfo" class="info-container row items-center justify-center">
+        <q-avatar id="close-info" color="primary" text-color="white" icon="close" @click="toggleShowInfoContainer" />
+        <div id="info-layout-large" class="row q-gutter-md">
+          <img class="col q-pl-sm q-py-md" src="../assets/jesse-wedding.jpg" id="info-photo" />
+          <div class="col q-pr-sm q-gutter-sm" style="height: 150px">
+            <div class="memory-container-text q-pt-xl">Hi there, my name is Dan, and this is my friend, Jesse.</div>
+            <div class="memory-container-text">Jesse was one of the first, best things that ever happened to me, and I was supposed to get to spend my life with him.</div>
+            <div class="memory-container-text">Since I don't get to do that, I am hoping you can share some of your memories of Jesse.</div>
+          </div>
+        </div>
+        <div id="info-layout-small" class="row q-gutter-md">
+          <div class="col">
+            <div class="row justify-center">
+              <img id="info-photo" src="../assets/jesse-wedding.jpg" />
+            </div>
+            <div class="row q-pa-md">
+              <div class="memory-container-text">Hi there, my name is Dan, and this is my friend, Jesse.</div>
+              <div class="memory-container-text">Jesse was one of the first, best things that ever happened to me, and I was supposed to get to spend my life with him.</div>
+              <div class="memory-container-text">Since I don't get to do that, I am hoping you can share some of your memories of Jesse.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="row q-gutter-md justify-left">
       <div v-for="memory in memories" :key="memory.key" class="memory-container row items-center justify-center" @click="openCarousel(memory.key)">
         <img v-if="memory.type == 'image'" class="memory-grid-image" :src="memory.image" />
@@ -105,6 +130,66 @@
     margin-left: -38.5px;
     color: $darker;
   }
+  .info-container {
+    width: 1314px;
+    height: 516px;
+    background-color: $darker;
+    border-radius: 5px;
+
+    #close-info {
+      position: absolute;
+      left: 20px;
+      top: 20px;
+    }
+
+    #info-photo {
+      height: 516px;
+      object-fit: contain;
+    }
+  }
+  #info-layout-large {
+    display: flex;
+  }
+  #info-layout-small {
+    display: none;
+  }
+  @media (max-width: 1555px) {
+    // 4 boxes wide
+    .info-container {
+      width: 1048px;
+      height: 516px;
+    }
+  }
+  @media (max-width: 1289px) {
+    // 3 boxes wide
+    .info-container {
+      width: 782px;
+      height: 516px;
+    }
+  }
+  @media (max-width: 813px) {
+    // 2 boxes wide
+    .info-container {
+      width: 516px;
+      height: 516px;
+    }
+  }
+  @media (max-width: 547px) {
+    // 1 box wide
+    .info-container {
+      width: 250px;
+      height: 516px;
+    }
+    #info-layout-large {
+      display: none;
+    }
+    #info-layout-small {
+      display: flex;
+    }
+    #info-photo {
+      height: 250px !important;
+    }
+  }
   .memory-container {
     width: 250px;
     height: 250px;
@@ -160,9 +245,20 @@ export default class Dashboard extends Vue {
   private slide = ''
   private carouselAutoplay = false
   private showSpinner = true
+  private showInfo = true
 
   private readableDate(unformattedDate: Date): string {
     return date.formatDate(unformattedDate, 'M/D/YYYY')
+  }
+
+  private getShowInfoContainer(): void {
+    this.showInfo = this.$store.getters['memoriesModule/showInfoContainer'] // eslint-disable-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-assignment
+  }
+
+  private toggleShowInfoContainer(): void {
+    this.$store.dispatch('memoriesModule/toggleShowInfoContainer')
+      .then(() => this.getShowInfoContainer())
+      .catch((err) => console.log(err))
   }
 
   private images(): Array<ImageRetrieve> {
@@ -235,6 +331,7 @@ export default class Dashboard extends Vue {
     //     console.error('Error retrieving images:', e)
     //   })
     this.getMemories()
+    this.getShowInfoContainer()
   }
 };
 </script>

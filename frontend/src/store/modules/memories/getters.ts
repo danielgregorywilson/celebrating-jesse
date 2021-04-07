@@ -7,6 +7,7 @@ const getters: GetterTree<MemoriesStateInterface, StateInterface> = {
   stories: state => state.stories,
   videos: state => state.videos,
   audio: state => state.audio,
+  showInfoContainer: state => state.showInfoContainer
 };
 
 export default getters;

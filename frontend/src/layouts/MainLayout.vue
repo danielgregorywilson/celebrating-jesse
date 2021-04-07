@@ -157,7 +157,8 @@ interface LayoutData {
 
 @Component({})
 export default class MainLayout extends Vue{
-  private leftDrawerOpen = false;
+  private leftDrawerOpen = false
+
   private name() {
     return this.$store.getters['userModule/getEmployeeProfile'].name // eslint-disable-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return
   }

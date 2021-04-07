@@ -18,6 +18,9 @@ const mutation: MutationTree<MemoriesStateInterface> = {
   setAudio: (state, resp: {data: AudioRetrieve}) => {
     Vue.set(state, 'audio', resp.data)
   },
+  toggleShowInfoContainer: (state) => {
+    Vue.set(state, 'showInfoContainer', !state.showInfoContainer)
+  }
 };
 
 export default mutation;

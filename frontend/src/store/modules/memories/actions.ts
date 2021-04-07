@@ -57,6 +57,12 @@ const actions: ActionTree<MemoriesStateInterface, StateInterface> = {
         });
     });
   },
+  toggleShowInfoContainer: ({ commit }) => {
+    return new Promise<void>((resolve) => {
+      commit('toggleShowInfoContainer')
+      resolve()
+    });
+  },
 
 
 
