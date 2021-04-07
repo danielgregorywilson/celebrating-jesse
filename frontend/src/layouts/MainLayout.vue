@@ -85,7 +85,7 @@
             </q-item-section>
           </q-item>
           <hr class="drawer-divider"/>
-          <q-item
+          <!-- <q-item
             @click='filter'
           >
             <q-item-section avatar>
@@ -94,7 +94,7 @@
             <q-item-section>
               <q-item-label>Filter</q-item-label>
             </q-item-section>
-          </q-item>
+          </q-item> -->
           <q-item
             clickable
             @click='upload'
