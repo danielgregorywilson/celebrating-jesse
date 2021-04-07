@@ -9,11 +9,12 @@
       <div v-if="showInfo && !showSpinner" class="info-container row items-center justify-center">
         <q-avatar id="close-info" color="primary" text-color="white" icon="close" @click="toggleShowInfoContainer" />
         <div id="info-layout-large" class="row q-gutter-md">
-          <img class="col q-pl-sm q-py-md" src="../assets/jesse-wedding.jpg" id="info-photo" />
+          <img class="col q-pl-sm" src="../assets/jesse-wedding.jpg" id="info-photo" />
           <div class="col q-pr-sm q-gutter-sm" style="height: 150px">
             <div class="memory-container-text q-pt-xl">Hi there, my name is Dan, and this is my friend, Jesse.</div>
-            <div class="memory-container-text">Jesse was one of the first, best things that ever happened to me, and I was supposed to get to spend my life with him.</div>
-            <div class="memory-container-text">Since I don't get to do that, I am hoping you can share some of your memories of Jesse.</div>
+            <div class="memory-container-text">Jesse was one of the first, best things that ever happened to me, and I was hoping to spend the rest of my life with him.</div>
+            <div class="memory-container-text">Since I don't get to do that, I am hope you will join me in sharing some of your memories of Jesse.</div>
+            <div class="memory-container-text">Use the navigation panel to register for an account, and upload your memories of him. If you have any trouble, please <a class="text-primary" href="mailto:celebratingjessecontact@gmail.com">contact me</a>.</div>
           </div>
         </div>
         <div id="info-layout-small" class="row q-gutter-md">
@@ -23,8 +24,9 @@
             </div>
             <div class="row q-pa-md">
               <div class="memory-container-text">Hi there, my name is Dan, and this is my friend, Jesse.</div>
-              <div class="memory-container-text">Jesse was one of the first, best things that ever happened to me, and I was supposed to get to spend my life with him.</div>
-              <div class="memory-container-text">Since I don't get to do that, I am hoping you can share some of your memories of Jesse.</div>
+              <div class="memory-container-text">Jesse was one of the first, best things that ever happened to me, and I was hoping to spend the rest of my life with him.</div>
+              <div class="memory-container-text">Since I don't get to do that, I am hope you will join me in sharing some of your memories of Jesse.</div>
+              <div class="memory-container-text">Use the navigation panel to register for an account, and upload your memories of him. If you have any trouble, please <a class="text-primary" href="mailto:celebratingjessecontact@gmail.com">contact me</a>.</div>
             </div>
           </div>
         </div>
@@ -111,7 +113,14 @@
             <source :src="memory.video" type="video/mp4">
           </video>
           <audio v-if="memory.type == 'audio'" controls :src="memory.audio" />
-          <q-card class="lightbox-metadata">
+          <div class="lightbox-metadata-inline q-mt-sm">
+            <div v-if="memory.title">{{ memory.title }}</div>
+            <div v-if="memory.description" class="row">{{ memory.description }}</div>
+            <div v-if="memory.date" class="row">Date: {{ memory.date }}</div>
+            <div v-if="memory.age && memory.age != -1" class="row">Age: {{ memory.age }}</div>
+            <div class="row">Uploaded by {{ memory.uploaded_by_name }} on {{ readableDate(memory.uploaded_at) }}</div>
+          </div>
+          <q-card class="lightbox-metadata-card">
             <q-card-section>
               <span v-if="memory.title" class="row">{{ memory.title }}</span>
               <span v-if="memory.description" class="row">{{ memory.description }}</span>
@@ -152,7 +161,7 @@
     }
 
     #info-photo {
-      height: 516px;
+      height: 487px;
       object-fit: contain;
     }
   }
@@ -180,14 +189,18 @@
     // 2 boxes wide
     .info-container {
       width: 516px;
-      height: 516px;
+      height: 410px;
+
+      #info-photo {
+        height: 410px;
+      }
     }
   }
   @media (max-width: 547px) {
     // 1 box wide
     .info-container {
       width: 250px;
-      height: 516px;
+      height: 622px;
     }
     #info-layout-large {
       display: none;
@@ -197,6 +210,12 @@
     }
     #info-photo {
       height: 250px !important;
+    }
+    .lightbox-metadata-card {
+      display: none;
+    }
+    .lightbox-metadata-inline {
+      display: block !important;
     }
   }
   .memory-container {
@@ -224,10 +243,13 @@
   .lightbox-story {
     width: 80%;
   }
-  .lightbox-metadata {
+  .lightbox-metadata-card {
     position: fixed;
     left: 30px;
     bottom: 30px;
+  }
+  .lightbox-metadata-inline {
+    display: none;
   }
   div {
     font-family: 'Montserrat', sans-serif;
