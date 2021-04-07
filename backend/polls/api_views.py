@@ -1,6 +1,7 @@
 from rest_framework import permissions, viewsets
 from rest_framework.decorators import action
 from rest_framework.generics import RetrieveAPIView
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import (
     BasePermission, DjangoModelPermissionsOrAnonReadOnly, IsAuthenticated,
@@ -46,25 +47,55 @@ class GroupViewSet(viewsets.ModelViewSet):
     # permission_classes = [IsAdminOrReadOnly]
 
 
+class MemoryPagination(PageNumberPagination):
+    page_size_query_param = 'page_size'
+
+    def get_paginated_response(self, data):
+        # Override to include the number of pages
+        response = super(MemoryPagination, self).get_paginated_response(data)
+        response.data['total_pages'] = self.page.paginator.num_pages
+        return response
+
+
+class StoryPagination(MemoryPagination):
+    page_size = 4
+
+
+class ImagePagination(MemoryPagination):
+    page_size = 20
+
+
+class VideoPagination(MemoryPagination):
+    page_size = 2
+
+
+class AudioPagination(MemoryPagination):
+    page_size = 2
+
+
 class StoryViewSet(viewsets.ModelViewSet):
     queryset = Story.objects.filter(approved=True)
     serializer_class = StorySerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
+    pagination_class = StoryPagination
 
 
 class ImageViewSet(viewsets.ModelViewSet):
     queryset = Image.objects.filter(approved=True)
     serializer_class = ImageSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
+    pagination_class = ImagePagination
 
 
 class VideoViewSet(viewsets.ModelViewSet):
     queryset = Video.objects.filter(approved=True)
     serializer_class = VideoSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
+    pagination_class = VideoPagination
 
 
 class AudioViewSet(viewsets.ModelViewSet):
     queryset = Audio.objects.filter(approved=True)
     serializer_class = AudioSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
+    pagination_class = AudioPagination

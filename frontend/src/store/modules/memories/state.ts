@@ -24,6 +24,11 @@ export interface MemoriesStateInterface {
   videos: Array<Video>
   audio: Array<Audio>
   showInfoContainer: boolean
+  totalImagePages: number
+  totalStoryPages: number
+  totalVideoPages: number
+  totalAudioPages: number
+  maxPages: number
 }
 
 const state: MemoriesStateInterface = {
@@ -31,7 +36,12 @@ const state: MemoriesStateInterface = {
   stories: [],
   videos: [],
   audio: [],
-  showInfoContainer: true
+  showInfoContainer: true,
+  totalImagePages: 1,
+  totalStoryPages: 1,
+  totalVideoPages: 1,
+  totalAudioPages: 1,
+  maxPages: 1
 };
 
 export default state;

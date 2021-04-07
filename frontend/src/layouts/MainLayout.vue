@@ -179,30 +179,6 @@ export default class MainLayout extends Vue{
         })
     }
   }
-  public getImages(): void {
-    this.$store.dispatch('memoriesModule/getImages')
-      .catch(e => {
-        console.error('Error getting images from store:', e)
-      })
-  }
-  public getStories(): void {
-    this.$store.dispatch('memoriesModule/getStories')
-      .catch(e => {
-        console.error('Error getting stories from store:', e)
-      })
-  }
-  public getVideos(): void {
-    this.$store.dispatch('memoriesModule/getVideos')
-      .catch(e => {
-        console.error('Error getting videos from store:', e)
-      })
-  }
-  public getAudio(): void {
-    this.$store.dispatch('memoriesModule/getAudio')
-      .catch(e => {
-        console.error('Error getting audio from store:', e)
-      })
-  }
 
   public gallery(): void {
     this.$router.push('/')
@@ -245,10 +221,6 @@ export default class MainLayout extends Vue{
 
   mounted() {
     this.getCurrentUser();
-    this.getImages();
-    this.getStories();
-    this.getVideos();
-    this.getAudio();
   }
 };
 </script>

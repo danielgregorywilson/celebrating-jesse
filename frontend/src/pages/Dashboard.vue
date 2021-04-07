@@ -6,7 +6,7 @@
       v-if="showSpinner"
     />
     <div class="row q-gutter-md justify-left q-pb-md">
-      <div v-if="showInfo" class="info-container row items-center justify-center">
+      <div v-if="showInfo && !showSpinner" class="info-container row items-center justify-center">
         <q-avatar id="close-info" color="primary" text-color="white" icon="close" @click="toggleShowInfoContainer" />
         <div id="info-layout-large" class="row q-gutter-md">
           <img class="col q-pl-sm q-py-md" src="../assets/jesse-wedding.jpg" id="info-photo" />
@@ -49,6 +49,15 @@
           <span class="memory-container-text row">Uploaded by {{ memory.uploaded_by_name }}</span>
         </div>
       </div>
+    </div>
+
+    <div class="q-pa-lg flex flex-center">
+      <q-pagination
+        v-if="!showSpinner"
+        v-model="currentPage"
+        :max="maxPages()"
+        @input="showInfo = false; getMemories(currentPage)"
+      />
     </div>
 
     <q-dialog v-model="carousel" full-width full-height>
@@ -138,8 +147,8 @@
 
     #close-info {
       position: absolute;
-      left: 20px;
-      top: 20px;
+      left: 25px;
+      top: 25px;
     }
 
     #info-photo {
@@ -246,6 +255,12 @@ export default class Dashboard extends Vue {
   private carouselAutoplay = false
   private showSpinner = true
   private showInfo = true
+  
+  private currentPage = 1
+
+  private maxPages() {
+    return this.$store.getters['memoriesModule/maxPages'] // eslint-disable-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return
+  }
 
   private readableDate(unformattedDate: Date): string {
     return date.formatDate(unformattedDate, 'M/D/YYYY')
@@ -262,7 +277,7 @@ export default class Dashboard extends Vue {
   }
 
   private images(): Array<ImageRetrieve> {
-    let images: Array<ImageRetrieve> = this.$store.getters['memoriesModule/images'].results // eslint-disable-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-assignment
+    let images: Array<ImageRetrieve> = this.$store.getters['memoriesModule/images'] // eslint-disable-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-assignment
     images.forEach(image => {
       image.key = `image-${image.pk}`
       image.type = 'image'
@@ -271,7 +286,7 @@ export default class Dashboard extends Vue {
   }
 
   private stories(): Array<StoryRetrieve> {
-    let stories: Array<StoryRetrieve> = this.$store.getters['memoriesModule/stories'].results // eslint-disable-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-assignment
+    let stories: Array<StoryRetrieve> = this.$store.getters['memoriesModule/stories'] // eslint-disable-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-assignment
     stories.forEach(story => {
       story.key = `story-${story.pk}`
       story.type = 'story'
@@ -280,7 +295,7 @@ export default class Dashboard extends Vue {
   }
 
   private videos(): Array<VideoRetrieve> {
-    let videos: Array<VideoRetrieve> = this.$store.getters['memoriesModule/videos'].results // eslint-disable-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-assignment
+    let videos: Array<VideoRetrieve> = this.$store.getters['memoriesModule/videos'] // eslint-disable-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-assignment
     videos.forEach(video => {
       video.key = `video-${video.pk}`
       video.type = 'video'
@@ -289,7 +304,7 @@ export default class Dashboard extends Vue {
   }
 
   private audio(): Array<AudioRetrieve> {
-    let audio: Array<AudioRetrieve> = this.$store.getters['memoriesModule/audio'].results // eslint-disable-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-assignment
+    let audio: Array<AudioRetrieve> = this.$store.getters['memoriesModule/audio'] // eslint-disable-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-assignment
     audio.forEach(audio => {
       audio.key = `audio-${audio.pk}`
       audio.type = 'audio'
@@ -297,18 +312,44 @@ export default class Dashboard extends Vue {
     return audio
   }
 
-  private getMemories() {
+  private getMemories(page: number) {
     let memories: Array<AudioRetrieve|ImageRetrieve|StoryRetrieve|VideoRetrieve> = []
-    Promise.all([
-      this.$store.dispatch('memoriesModule/getImages'),
-      this.$store.dispatch('memoriesModule/getStories'),
-      this.$store.dispatch('memoriesModule/getVideos'),
-      this.$store.dispatch('memoriesModule/getAudio')
-    ]).then(() => {
-      this.images().forEach(imageMemory => memories.push(imageMemory))
-      this.stories().forEach(storyMemory => memories.push(storyMemory))
-      this.videos().forEach(videoMemory => memories.push(videoMemory))
-      this.audio().forEach(audioMemory => memories.push(audioMemory))
+    this.showSpinner = true
+    
+    // Only get memories of types that we have more of to get
+    let getNextPageImages = this.$store.getters['memoriesModule/totalImagePages'] >= page // eslint-disable-line @typescript-eslint/no-unsafe-member-access
+    let getNextPageStories = this.$store.getters['memoriesModule/totalStoryPages'] >= page // eslint-disable-line @typescript-eslint/no-unsafe-member-access
+    let getNextPageVideos = this.$store.getters['memoriesModule/totalVideoPages'] >= page // eslint-disable-line @typescript-eslint/no-unsafe-member-access
+    let getNextPageAudio = this.$store.getters['memoriesModule/totalAudioPages'] >= page // eslint-disable-line @typescript-eslint/no-unsafe-member-access
+
+    let getters = []
+    if (getNextPageImages) {
+      getters.push(this.$store.dispatch('memoriesModule/getImages', page))
+    }
+    if (getNextPageStories) {
+      getters.push(this.$store.dispatch('memoriesModule/getStories', page))
+    }
+    if (getNextPageVideos) {
+      getters.push(this.$store.dispatch('memoriesModule/getVideos', page))
+    }
+    if (getNextPageAudio) {
+      getters.push(this.$store.dispatch('memoriesModule/getAudio', page))
+    }
+    
+    Promise.all(getters)
+    .then(() => {
+      if (getNextPageImages) {
+        this.images().forEach(imageMemory => memories.push(imageMemory))
+      }
+      if (getNextPageStories) {
+        this.stories().forEach(storyMemory => memories.push(storyMemory))
+      }
+      if (getNextPageVideos) {
+        this.videos().forEach(videoMemory => memories.push(videoMemory))
+      }
+      if (getNextPageAudio) {
+        this.audio().forEach(audioMemory => memories.push(audioMemory))
+      }
       this.memories = memories
         .map((a) => ({sort: Math.random(), value: a}))
         .sort((a, b) => a.sort - b.sort)
@@ -330,7 +371,7 @@ export default class Dashboard extends Vue {
     //   .catch(e => {
     //     console.error('Error retrieving images:', e)
     //   })
-    this.getMemories()
+    this.getMemories(1)
     this.getShowInfoContainer()
   }
 };

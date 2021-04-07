@@ -33,9 +33,17 @@ export interface Memory {
   key: string
 }
 
+export interface MemoryRetrieveData {
+  total_pages: number
+}
+
 export interface ImageRetrieve extends Memory {
   pk: number
   image: string
+}
+
+export interface ImageRetrieveData extends MemoryRetrieveData {
+  results: Array<ImageRetrieve>
 }
 
 export interface StoryRetrieve extends Memory {
@@ -43,14 +51,26 @@ export interface StoryRetrieve extends Memory {
   story: string
 }
 
+export interface StoryRetrieveData extends MemoryRetrieveData {
+  results: Array<StoryRetrieve>
+}
+
 export interface VideoRetrieve extends Memory {
   pk: number
   video: string
 }
 
+export interface VideoRetrieveData extends MemoryRetrieveData {
+  results: Array<VideoRetrieve>
+}
+
 export interface AudioRetrieve extends Memory {
   pk: number
   audio: string
+}
+
+export interface AudioRetrieveData extends MemoryRetrieveData {
+  results: Array<AudioRetrieve>
 }
 
 
