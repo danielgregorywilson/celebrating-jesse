@@ -74,28 +74,28 @@ class AudioPagination(MemoryPagination):
 
 
 class StoryViewSet(viewsets.ModelViewSet):
-    queryset = Story.objects.filter(approved=True)
+    queryset = Story.objects.filter(approved=True).order_by('-uploaded_at')
     serializer_class = StorySerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     pagination_class = StoryPagination
 
 
 class ImageViewSet(viewsets.ModelViewSet):
-    queryset = Image.objects.filter(approved=True)
+    queryset = Image.objects.filter(approved=True).order_by('-uploaded_at')
     serializer_class = ImageSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     pagination_class = ImagePagination
 
 
 class VideoViewSet(viewsets.ModelViewSet):
-    queryset = Video.objects.filter(approved=True)
+    queryset = Video.objects.filter(approved=True).order_by('-uploaded_at')
     serializer_class = VideoSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     pagination_class = VideoPagination
 
 
 class AudioViewSet(viewsets.ModelViewSet):
-    queryset = Audio.objects.filter(approved=True)
+    queryset = Audio.objects.filter(approved=True).order_by('-uploaded_at')
     serializer_class = AudioSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     pagination_class = AudioPagination
