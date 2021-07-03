@@ -48,3 +48,10 @@ backend/cloud_sql_proxy
 
 # Google Cloud Platform service account secret key
 backend/celebrating-jesse-4a93e9d763a8-storage-service-account.json
+
+# Misc
+frontend/admin/css/*
+frontend/admin/fonts/*
+frontend/admin/img/*
+frontend/admin/js/*
+frontend/rest_framework/*

@@ -13,7 +13,7 @@
           class="text-secondary"
         />
         <q-toolbar-title id="mainHeader">
-          Celebrating Jesse
+          Celebrating Jesse - UNDER CONSTRUCTION
         </q-toolbar-title>
       </q-toolbar>
     </q-header>
@@ -220,7 +220,7 @@ export default class MainLayout extends Vue{
   }
 
   mounted() {
-    this.getCurrentUser();
+    // this.getCurrentUser();
   }
 };
 </script>

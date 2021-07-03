@@ -33,8 +33,35 @@
       </div>
     </div>
     <div class="row q-gutter-md justify-left">
-      <div v-for="memory in memories" :key="memory.key" class="memory-container row items-center justify-center" @click="openCarousel(memory.key)">
-        <img v-if="memory.type == 'image'" class="memory-grid-image" :src="memory.image" />
+      <!-- FOO {{memoryData}} -->
+      <!-- <div class="memory-container row items-center justify-center">
+        <img class="memory-grid-image" src="../assets/images/0F27B77D-9E42-4A6B-A7BB-727782B38481.jpeg" />
+      </div>
+      <div class="memory-container row items-center justify-center">
+        <img class="memory-grid-image" :src="require(`${imageDir}0F27B77D-9E42-4A6B-A7BB-727782B38481.jpeg`)" />
+      </div> -->
+      
+      <!-- <div class="memory-container row items-center justify-center"> -->
+        <!-- <img v-for="memory in jsonImages" :key="memory.filename" class="memory-grid-image" :src="imgUrl(memory.relativepath)" /> -->
+      <!-- </div> -->
+
+      <!-- <div class="memory-container row items-center justify-center">
+        <img class="memory-grid-image" src="../assets/images/0F27B77D-9E42-4A6B-A7BB-727782B38481.jpeg" />
+      </div> -->
+
+      <!-- <div class="memory-container row items-center justify-center">
+        <img class="memory-grid-image" src="../assets/images/0F27B77D-9E42-4A6B-A7BB-727782B38481.jpeg" />
+      </div> -->
+
+      <!-- <div v-for="memory in memoryData.memories" :key="memory.filename" @click="openCarousel(memory.filename)">
+        {{ memory.filename}}
+        <img class="memory-grid-image" :src="getImgUrl(memory.filename)" />
+      </div> -->
+      <!-- <div class="memory-container row items-center justify-center">
+        <img v-for="memory in memoryData.images" :key="memory.filename" class="memory-grid-image" :src="require(memory.path)" />
+      </div> -->
+      <div v-for="memory in memoryData.memories" :key="memory.filename" class="memory-container row items-center justify-center" @click="openCarousel(memory.filename)">
+        <img v-if="memory.type == 'image'" class="memory-grid-image" :src="getImgUrl(memory.filename)" />
         <div v-if="memory.type == 'story'">
           <q-icon name="auto_stories" class="memory-container-text row" size="56px"/>
           <span v-if="memory.title" class="memory-container-text row">{{ memory.title }}</span>
@@ -63,6 +90,77 @@
     </div>
 
     <q-dialog v-model="carousel" full-width full-height>
+      <q-carousel
+        v-model="slide"
+        animated
+        transition-prev="slide-right"
+        transition-next="slide-left"
+        swipeable
+        control-color="primary"
+        class="bg-gradientEnd shadow-1 rounded-borders"
+        id="memory-carousel"
+        :autoplay="carouselAutoplay"
+        ref="carousel"
+      >
+        <template v-slot:control>
+          <q-carousel-control
+            position="top-right"
+            :offset="[18, 18]"
+            class="text-white rounded-borders"
+            style="background: rgba(0, 0, 0, .3); padding: 4px 8px;"
+          >
+            <q-toggle dense dark color="primary" v-model="carouselAutoplay" label="Autoplay" />
+          </q-carousel-control>
+
+          <q-carousel-control
+            position="bottom-right"
+            :offset="[18, 18]"
+            class="q-gutter-xs"
+          >
+            <q-btn
+              push round dense color="primary" text-color="black" icon="arrow_left"
+              @click="$refs.carousel.previous()"
+            />
+            <q-btn
+              push round dense color="primary" text-color="black" icon="arrow_right"
+              @click="$refs.carousel.next()"
+            />
+          </q-carousel-control>
+        </template>
+        <q-carousel-slide v-for="memory in memoryData.memories" :key="memory.filename" :name="memory.filename" class="column no-wrap flex-center">
+          <img v-if="memory.type == 'image'" :src="getImgUrl(memory.filename)" class="memory-lightbox-image" />
+          <div v-if="memory.type == 'story'" class="column flex-center">
+            <q-card class="lightbox-story">
+              <q-card-section>
+                {{ memory.story }}
+              </q-card-section>
+            </q-card>
+          </div>
+          <video v-if="memory.type == 'video'" width="320" height="240" controls>
+            <source :src="memory.video" type="video/mp4">
+          </video>
+          <audio v-if="memory.type == 'audio'" controls :src="memory.audio" />
+          <div class="lightbox-metadata-inline q-mt-sm">
+            <div v-if="memory.title">{{ memory.title }}</div>
+            <div v-if="memory.description" class="row">{{ memory.description }}</div>
+            <div v-if="memory.date" class="row">Date: {{ memory.date }}</div>
+            <div v-if="memory.age && memory.age != -1" class="row">Age: {{ memory.age }}</div>
+            <div class="row">Uploaded by {{ memory.uploaded_by_name }} on {{ readableDate(memory.uploaded_at) }}</div>
+          </div>
+          <q-card class="lightbox-metadata-card">
+            <q-card-section>
+              <span v-if="memory.title" class="row">{{ memory.title }}</span>
+              <span v-if="memory.description" class="row">{{ memory.description }}</span>
+              <span v-if="memory.date" class="row">Date: {{ memory.date }}</span>
+              <span v-if="memory.age && memory.age != -1" class="row">Age: {{ memory.age }}</span>
+              <span class="row">Uploaded by {{ memory.uploaded_by_name }} on {{ readableDate(memory.uploaded_at) }}</span>
+            </q-card-section>
+          </q-card>
+        </q-carousel-slide>
+      </q-carousel>
+    </q-dialog>
+
+    <!-- <q-dialog v-model="carousel" full-width full-height>
       <q-carousel
         v-model="slide"
         animated
@@ -131,7 +229,7 @@
           </q-card>
         </q-carousel-slide>
       </q-carousel>
-    </q-dialog>
+    </q-dialog> -->
   </q-page>
 </template>
 
@@ -264,6 +362,8 @@ import { Component, Vue } from 'vue-property-decorator'
 import ReviewNoteTable from '../components/ReviewNoteTable.vue';
 import PerformanceReviewTable from '../components/PerformanceReviewTable.vue';
 import { AudioRetrieve, ImageRetrieve, StoryRetrieve, VideoRetrieve } from '../store/types'
+// import memoryData from '../assets/memories.json'
+// import * as memoryData from '../assets/memories.json'
 
 @Component({
   components: { PerformanceReviewTable, ReviewNoteTable }
@@ -275,8 +375,11 @@ export default class Dashboard extends Vue {
   private carousel = false
   private slide = ''
   private carouselAutoplay = false
-  private showSpinner = true
+  private showSpinner = false // TODO: start true
   private showInfo = true
+
+  private imageDir = '../assets/images/'
+  private memoryData = require('../assets/memories.json') // eslint-disable-line @typescript-eslint/no-unsafe-assignment
   
   private currentPage = 1
 
@@ -335,7 +438,7 @@ export default class Dashboard extends Vue {
   }
 
   private getMemories(page: number) {
-    let memories: Array<AudioRetrieve|ImageRetrieve|StoryRetrieve|VideoRetrieve> = []
+    // let memories: Array<AudioRetrieve|ImageRetrieve|StoryRetrieve|VideoRetrieve> = []
     this.showSpinner = true
     
     // Only get memories of types that we have more of to get
@@ -344,43 +447,43 @@ export default class Dashboard extends Vue {
     let getNextPageVideos = this.$store.getters['memoriesModule/totalVideoPages'] >= page // eslint-disable-line @typescript-eslint/no-unsafe-member-access
     let getNextPageAudio = this.$store.getters['memoriesModule/totalAudioPages'] >= page // eslint-disable-line @typescript-eslint/no-unsafe-member-access
 
-    let getters = []
+    // let getters = []
     if (getNextPageImages) {
-      getters.push(this.$store.dispatch('memoriesModule/getImages', page))
+      // getters.push(this.$store.dispatch('memoriesModule/getImages', page))
     }
     if (getNextPageStories) {
-      getters.push(this.$store.dispatch('memoriesModule/getStories', page))
+      // getters.push(this.$store.dispatch('memoriesModule/getStories', page))
     }
     if (getNextPageVideos) {
-      getters.push(this.$store.dispatch('memoriesModule/getVideos', page))
+      // getters.push(this.$store.dispatch('memoriesModule/getVideos', page))
     }
     if (getNextPageAudio) {
-      getters.push(this.$store.dispatch('memoriesModule/getAudio', page))
+      // getters.push(this.$store.dispatch('memoriesModule/getAudio', page))
     }
     
-    Promise.all(getters)
-    .then(() => {
-      if (getNextPageImages) {
-        this.images().forEach(imageMemory => memories.push(imageMemory))
-      }
-      if (getNextPageStories) {
-        this.stories().forEach(storyMemory => memories.push(storyMemory))
-      }
-      if (getNextPageVideos) {
-        this.videos().forEach(videoMemory => memories.push(videoMemory))
-      }
-      if (getNextPageAudio) {
-        this.audio().forEach(audioMemory => memories.push(audioMemory))
-      }
-      this.memories = memories
-        .map((a) => ({sort: Math.random(), value: a}))
-        .sort((a, b) => a.sort - b.sort)
-        .map((a) => a.value)
-      this.showSpinner = false
-    })
-    .catch(e => {
-      console.error('Error getting all memories:', e)
-    })
+    // Promise.all(getters)
+    // .then(() => {
+    //   if (getNextPageImages) {
+    //     this.images().forEach(imageMemory => memories.push(imageMemory))
+    //   }
+    //   if (getNextPageStories) {
+    //     this.stories().forEach(storyMemory => memories.push(storyMemory))
+    //   }
+    //   if (getNextPageVideos) {
+    //     this.videos().forEach(videoMemory => memories.push(videoMemory))
+    //   }
+    //   if (getNextPageAudio) {
+    //     this.audio().forEach(audioMemory => memories.push(audioMemory))
+    //   }
+    //   this.memories = memories
+    //     .map((a) => ({sort: Math.random(), value: a}))
+    //     .sort((a, b) => a.sort - b.sort)
+    //     .map((a) => a.value)
+    //   this.showSpinner = false
+    // })
+    // .catch(e => {
+    //   console.error('Error getting all memories:', e)
+    // })
   }
 
   private openCarousel(key: string): void {
@@ -388,12 +491,36 @@ export default class Dashboard extends Vue {
     this.carousel = true
   }
 
+  // private imagesX = require.context('../../assets/img/', false, /\.jpg$/) // eslint-disable-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+
+  // private imgUrl(path): string {
+  //   return this.imagesX('./' + path) // eslint-disable-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-return, @typescript-eslint/restrict-plus-operands
+  // }
+
+  getImgUrl(filename) {
+    var images = require.context('../assets/images', false, /\.jpeg$|\.jpg$/)
+    return images('./' + filename)
+  }
+
+  private jsonImages = [
+      {
+        path: 'frontend/src/assets/images/0F27B77D-9E42-4A6B-A7BB-727782B38481.jpeg',
+        relativepath: '../assets/images/0F27B77D-9E42-4A6B-A7BB-727782B38481.jpeg',
+        filename: '0F27B77D-9E42-4A6B-A7BB-727782B38481.jpeg'
+      },
+      {
+        path: 'frontend/src/assets/images/2FD73A27-CA81-4375-A739-3939607A636B_1_201_a.jpeg',
+        relativepath: '../assets/images/2FD73A27-CA81-4375-A739-3939607A636B_1_201_a.jpeg',
+        filename: '2FD73A27-CA81-4375-A739-3939607A636B_1_201_a.jpeg'
+      }
+    ]
+
   mounted() {
     // this.retrieveImages()
     //   .catch(e => {
     //     console.error('Error retrieving images:', e)
     //   })
-    this.getMemories(1)
+    // this.getMemories(1)
     this.getShowInfoContainer()
   }
 };

@@ -4,5 +4,10 @@
     "baseUrl": ".",
     "target": "es5",
     "experimentalDecorators": true,
+    "resolveJsonModule": true,
   },
+  "exclude": [
+    "./rest_framework/*",
+    "./admin/*"
+  ]
 }
