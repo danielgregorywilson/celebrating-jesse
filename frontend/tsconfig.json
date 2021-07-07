@@ -5,6 +5,10 @@
     "target": "es5",
     "experimentalDecorators": true,
     "resolveJsonModule": true,
+    "types": [
+      "node",
+      "webpack-env"
+    ]
   },
   "exclude": [
     "./rest_framework/*",

@@ -1,6 +1,17 @@
 import { AxiosResponse } from 'axios'
 import { Url } from 'url'
 
+export interface MemoryFileContents {
+  memories: Array<MemoryFromFile>
+}
+
+export interface MemoryFromFile {
+  type: string
+  filename: string
+}
+
+
+
 /////////////////////////////////////////////////////
 // Auth Users Structure from Django Rest Framework //
 /////////////////////////////////////////////////////

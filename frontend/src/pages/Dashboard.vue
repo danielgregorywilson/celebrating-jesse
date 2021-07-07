@@ -60,7 +60,7 @@
       <!-- <div class="memory-container row items-center justify-center">
         <img v-for="memory in memoryData.images" :key="memory.filename" class="memory-grid-image" :src="require(memory.path)" />
       </div> -->
-      <div v-for="memory in memoryData.memories" :key="memory.filename" class="memory-container row items-center justify-center" @click="openCarousel(memory.filename)">
+      <div v-for="memory in memoryData" :key="memory.filename" class="memory-container row items-center justify-center" @click="openCarousel(memory.filename)">
         <img v-if="memory.type == 'image'" class="memory-grid-image" :src="getImgUrl(memory.filename)" />
         <div v-if="memory.type == 'story'">
           <q-icon name="auto_stories" class="memory-container-text row" size="56px"/>
@@ -127,7 +127,7 @@
             />
           </q-carousel-control>
         </template>
-        <q-carousel-slide v-for="memory in memoryData.memories" :key="memory.filename" :name="memory.filename" class="column no-wrap flex-center">
+        <q-carousel-slide v-for="memory in memoryData" :key="memory.filename" :name="memory.filename" class="column no-wrap flex-center">
           <img v-if="memory.type == 'image'" :src="getImgUrl(memory.filename)" class="memory-lightbox-image" />
           <div v-if="memory.type == 'story'" class="column flex-center">
             <q-card class="lightbox-story">
@@ -139,7 +139,7 @@
           <video v-if="memory.type == 'video'" width="320" height="240" controls>
             <source :src="memory.video" type="video/mp4">
           </video>
-          <audio v-if="memory.type == 'audio'" controls :src="memory.audio" />
+          <audio v-if="memory.type == 'audio'" controls :src="memory.filename" />
           <div class="lightbox-metadata-inline q-mt-sm">
             <div v-if="memory.title">{{ memory.title }}</div>
             <div v-if="memory.description" class="row">{{ memory.description }}</div>
@@ -361,9 +361,7 @@ import { date } from 'quasar'
 import { Component, Vue } from 'vue-property-decorator'
 import ReviewNoteTable from '../components/ReviewNoteTable.vue';
 import PerformanceReviewTable from '../components/PerformanceReviewTable.vue';
-import { AudioRetrieve, ImageRetrieve, StoryRetrieve, VideoRetrieve } from '../store/types'
-// import memoryData from '../assets/memories.json'
-// import * as memoryData from '../assets/memories.json'
+import { AudioRetrieve, ImageRetrieve, MemoryFileContents, MemoryFromFile, StoryRetrieve, VideoRetrieve } from '../store/types'
 
 @Component({
   components: { PerformanceReviewTable, ReviewNoteTable }
@@ -379,9 +377,20 @@ export default class Dashboard extends Vue {
   private showInfo = true
 
   private imageDir = '../assets/images/'
-  private memoryData = require('../assets/memories.json') // eslint-disable-line @typescript-eslint/no-unsafe-assignment
+  private memoryData: Array<MemoryFromFile> = []
   
   private currentPage = 1
+
+  private loadedImages = require.context('../assets/images', false, /\.jpeg$|\.jpg$/) // eslint-disable-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+
+  private setMemories() {
+    const memoriesFromFile: MemoryFileContents = require('../assets/memories.json') // eslint-disable-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
+    this.memoryData = this.shuffleMemories(memoriesFromFile.memories) // eslint-disable-line @typescript-eslint/no-unsafe-return
+  }  
+
+  private shuffleMemories(arr: Array<MemoryFromFile>) {
+    return arr.sort(() => Math.random() - 0.5);
+  }
 
   private maxPages() {
     return this.$store.getters['memoriesModule/maxPages'] // eslint-disable-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return
@@ -497,23 +506,15 @@ export default class Dashboard extends Vue {
   //   return this.imagesX('./' + path) // eslint-disable-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-return, @typescript-eslint/restrict-plus-operands
   // }
 
-  getImgUrl(filename) {
-    var images = require.context('../assets/images', false, /\.jpeg$|\.jpg$/)
-    return images('./' + filename)
+  getImgUrl(filename: string) {
+    return this.loadedImages(`./${filename}`) // eslint-disable-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/restrict-template-expressions
   }
 
-  private jsonImages = [
-      {
-        path: 'frontend/src/assets/images/0F27B77D-9E42-4A6B-A7BB-727782B38481.jpeg',
-        relativepath: '../assets/images/0F27B77D-9E42-4A6B-A7BB-727782B38481.jpeg',
-        filename: '0F27B77D-9E42-4A6B-A7BB-727782B38481.jpeg'
-      },
-      {
-        path: 'frontend/src/assets/images/2FD73A27-CA81-4375-A739-3939607A636B_1_201_a.jpeg',
-        relativepath: '../assets/images/2FD73A27-CA81-4375-A739-3939607A636B_1_201_a.jpeg',
-        filename: '2FD73A27-CA81-4375-A739-3939607A636B_1_201_a.jpeg'
-      }
-    ]
+  // getAudioUrl() {
+  //   // var audio = require.context('../assets/audio', false, /\.m4a$/) // eslint-disable-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+  //   // return audio(`./${filename}`) // eslint-disable-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/restrict-template-expressions
+  //   return new Audio(require('../assets/audio/vm-10-16-2020.m4a'))
+  // }
 
   mounted() {
     // this.retrieveImages()
@@ -521,6 +522,7 @@ export default class Dashboard extends Vue {
     //     console.error('Error retrieving images:', e)
     //   })
     // this.getMemories(1)
+    this.setMemories()
     this.getShowInfoContainer()
   }
 };

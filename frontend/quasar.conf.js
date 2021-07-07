@@ -73,14 +73,32 @@ module.exports = configure(function (ctx) {
 
       // https://quasar.dev/quasar-cli/handling-webpack
       extendWebpack (cfg) {
-          // linting is slow in TS projects, we execute it only for production builds
+        // linting is slow in TS projects, we execute it only for production builds
+        // cfg.module.rules.push({
+        //   enforce: 'pre',
+        //   test: /\.vue$/,
+        //   loader: 'vue-loader',
+        //   options: {
+        //     transformAssetUrls: {
+        //       audio: 'src'
+        //     }
+        //   },
+        // })
+        // cfg.module.rules.push({
+        //   enforce: 'pre',
+        //   test: /\.m4a$/,
+        //   loader: 'file-loader',
+        //   options: {
+        //     name: '[path][name].[ext]',
+        //   },
+        // })
         if (ctx.prod) {
-        cfg.module.rules.push({
-          enforce: 'pre',
-          test: /\.(js|vue)$/,
-          loader: 'eslint-loader',
-          exclude: /node_modules/
-        })
+          cfg.module.rules.push({
+            enforce: 'pre',
+            test: /\.(js|vue)$/,
+            loader: 'eslint-loader',
+            exclude: /node_modules/
+          })
         }
       },
     },
