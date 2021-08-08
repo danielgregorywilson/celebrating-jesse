@@ -381,7 +381,7 @@ export default class Dashboard extends Vue {
   
   private currentPage = 1
 
-  private loadedImages = require.context('../assets/images', false, /\.jpeg$|\.jpg$/) // eslint-disable-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+  private loadedImages = require.context('../assets/images', false, /\.jpeg$|\.jpg$|\.png$/) // eslint-disable-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
 
   private setMemories() {
     const memoriesFromFile: MemoryFileContents = require('../assets/memories.json') // eslint-disable-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
